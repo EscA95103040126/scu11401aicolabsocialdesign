@@ -8,117 +8,111 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Sans+KR:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        :root {
-            --text-main: #1a1a1a;
-            --text-white: #ffffff;
-            --text-sub: #555555;
-            --accent-blue: #0058cc; /* Naver Blue */
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --transition-speed: 0.3s;
-        }
+ <style>
+        /* ... 前面的 :root, * , html, body 保持不變 ... */
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: #f4f6f8;
-            color: var(--text-main);
-            font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* --- 修正版 Header (已設定為讀取本機圖片) --- */
+        /* --- 1. Header 優化：加入視差滾動與雲霧漸層 --- */
         header {
-            /* 使用說明：
-               1. 請將您生成的插畫圖片下載。
-               2. 將圖片檔名改為 "header-bg.png"。
-               3. 確保圖片跟這個 html 檔案放在同一個資料夾。
+            /* 圖層順序：
+               1. 底部白色雲霧漸層 (讓圖片底部自然變白，連接下方內容)
+               2. 整體稍微提亮的濾鏡 (讓文字更清楚)
+               3. 您的背景圖
             */
-            background-image: url('header-bg.png');
+            background-image: 
+                linear-gradient(to top, #f4f6f8 5%, rgba(244, 246, 248, 0.8) 15%, transparent 40%),
+                linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)),
+                url('header-bg.jpg'); /* 記得確認這裡檔名對不對 */
             
             background-size: cover;
-            background-position: center; 
-            background-repeat: no-repeat;
+            background-position: center bottom; /* 圖片對齊底部，讓建築物露出來 */
             
-            height: 60vh;
+            /* 【關鍵】視差滾動效果：背景固定不動，內容滑動 */
+            background-attachment: fixed; 
+            
+            height: 65vh; /*稍微加高一點，展現氣勢*/
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 2rem;
-            color: #2c3e50; /* 深色文字 */
+            color: #2c3e50;
             position: relative;
         }
 
-        /* 裝飾性韓文背景字 */
+        /* 裝飾性背景字維持不變 */
         header::before {
             content: "한국생활";
             position: absolute;
             font-family: 'Noto Sans KR', sans-serif;
             font-size: 15vw;
             font-weight: 900;
-            color: rgba(0,0,0,0.03); /* 極淡的浮水印 */
+            color: rgba(0,0,0,0.05); /* 稍微加深一點點 */
             pointer-events: none;
             z-index: 1;
-            top: 50%;
+            top: 45%;
             transform: translateY(-50%);
         }
 
         .header-content {
             z-index: 2;
+            /* 加入一點點浮動動畫 */
+            animation: float 6s ease-in-out infinite;
         }
 
         h1 {
             font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
-            color: #2c3e50;
-            /* 增加更強的白光暈，確保在卡通背景上文字依然清晰 */
-            text-shadow: 0 0 20px rgba(255,255,255,0.9), 0 0 10px rgba(255,255,255,0.8); 
+            color: #1a2b3c;
+            /* 文字光暈，增加立體感 */
+            text-shadow: 0 4px 15px rgba(255,255,255,0.8);
         }
 
+        /* --- 2. 副標題優化：絲滑的毛玻璃膠囊 --- */
         .subtitle {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            font-weight: 500;
-            max-width: 700px;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-weight: 600;
+            max-width: 650px;
             margin: 0 auto;
-            opacity: 1; /* 提高不透明度 */
-            color: #444; /* 深灰色副標題 */
-            background: rgba(255,255,255,0.6); /* 加入淡淡的背景色塊讓文字在插畫上更好讀 */
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            backdrop-filter: blur(4px);
+            color: #333;
+            line-height: 1.8;
+            
+            /* 毛玻璃效果重點 */
+            background: rgba(255, 255, 255, 0.65); /* 半透明白 */
+            backdrop-filter: blur(12px); /* 背景模糊 */
+            -webkit-backdrop-filter: blur(12px);
+            
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px; /* 膠囊狀 */
+            border: 1px solid rgba(255, 255, 255, 0.6); /* 玻璃邊框 */
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1); /* 柔和陰影 */
         }
 
+        /* Tag Pill 樣式維持，稍微調整陰影 */
         .tag-pill {
             display: inline-block;
             background: var(--accent-blue);
-            color: white; /* 標籤維持藍底白字 */
-            padding: 0.4rem 1rem;
+            color: white;
+            padding: 0.4rem 1.2rem;
             border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0, 88, 204, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 88, 204, 0.3);
+            transform: translateY(-5px);
         }
 
-        /* --- 內容區塊 --- */
+        /* --- 3. 內容區塊調整：解決重疊碰撞問題 --- */
         .container {
             max-width: 1200px;
-            margin: -60px auto 0; /* 讓內容稍微往上蓋住圖片，增加層次感 */
+            /* 原本是 -60px，改成 -30px 減少重疊。
+               因為 Header 底部已經有漸層白，這裡不需要蓋太多 
+            */
+            margin: -30px auto 0; 
             padding: 0 2rem 4rem 2rem;
             position: relative;
             z-index: 3;
@@ -127,112 +121,39 @@
         .section-title {
             font-size: 1.4rem;
             font-weight: 700;
-            margin: 3rem 0 1.5rem 0;
+            /* 增加上方的 margin，把標題往下推，避免碰到圖片 */
+            margin: 4rem 0 1.5rem 0; 
             display: flex;
             align-items: center;
             color: #333;
+            /* 讓標題本身也有點淡入效果 */
+            background: linear-gradient(90deg, #333, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: fit-content;
         }
-
+        
+        /* 標題前的藍色小豎條 */
         .section-title::before {
             content: '';
             display: inline-block;
-            width: 8px;
+            width: 6px;
             height: 24px;
             background: var(--accent-blue);
             margin-right: 12px;
-            border-radius: 4px;
+            border-radius: 10px;
+            /* 讓藍色豎條不會被文字漸層影響，需要重置顏色 */
+            -webkit-text-fill-color: initial; 
         }
 
-        .grid {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        /* 加一個微幅浮動動畫給 Header 文字 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
-        @media (min-width: 1024px) {
-            .grid { grid-template-columns: repeat(4, 1fr); }
-        }
-
-        /* Card 視覺優化 */
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px); /* 毛玻璃效果 */
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            transition: all var(--transition-speed);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 88, 204, 0.12); /* 懸停時帶點藍色陰影 */
-            background: #ffffff;
-            border-color: var(--accent-blue);
-        }
-
-        .icon-box {
-            font-size: 2.2rem;
-            color: var(--accent-blue);
-            margin-bottom: 1rem;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 88, 204, 0.08);
-            border-radius: 20px; /* 方圓形更現代 */
-            transition: all var(--transition-speed);
-        }
-
-        .card:hover .icon-box {
-            background: var(--accent-blue);
-            color: white;
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .card p {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            line-height: 1.5;
-        }
-
-        /* Footer */
-        footer {
-            padding: 4rem 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #888;
-            background: #fff;
-            margin-top: 5rem;
-            border-top: 1px solid #eee;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* 響應式調整 */
-        @media (max-width: 768px) {
-            header { height: 50vh; }
-            .container { margin-top: -40px; }
-            h1 { font-size: 2.5rem; }
-        }
+        /* ... 後面的 .grid, .card 等保持不變 ... */
     </style>
 </head>
 <body>
@@ -370,3 +291,4 @@
     </script>
 </body>
 </html>
+
