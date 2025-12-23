@@ -36,26 +36,23 @@
             overflow-x: hidden;
         }
 
-        /* --- 1. Header 核心優化區 --- */
+        /* --- 1. Header 區塊 --- */
         header {
-            /* 圖層順序 (由上到下):
-               1. 底部白色雲霧漸層 (讓圖片底部自然變白)
-               2. 微微的白色濾鏡 (讓文字更清楚)
-               3. 背景圖片 (設定為 header-bg.png)
-            */
+            /* 背景圖片設定 */
             background-image: 
-                linear-gradient(to top, #f4f6f8 0%, rgba(244, 246, 248, 0.9) 10%, rgba(255,255,255,0) 40%),
+                /* 底部漸層：讓圖片最下方稍微有點過渡，但不會蓋住房子 */
+                linear-gradient(to top, rgba(244, 246, 248, 1) 0%, rgba(244, 246, 248, 0) 15%),
                 linear-gradient(rgba(0,0,0,0.02), rgba(0,0,0,0.02)),
                 url('header-bg.png'); 
             
             background-size: cover;
-            /* 【關鍵】對齊底部！確保視差滾動時，漂亮的房子永遠看得到 */
+            /* 對齊底部，確保房子永遠看得到 */
             background-position: center bottom; 
             
-            /* 【關鍵】視差滾動效果：背景固定不動 */
+            /* 視差滾動效果：背景固定不動 */
             background-attachment: fixed; 
             
-            /* 【關鍵】高度設為 100vh (滿版)，展現圖片的全貌 */
+            /* 高度設為 100vh (滿版)，展現圖片的全貌 */
             height: 100vh;
             min-height: 600px;
             
@@ -69,25 +66,25 @@
             position: relative;
         }
 
-        /* 背景巨大的裝飾性韓文 (不干擾閱讀) */
+        /* 背景巨大的裝飾性韓文 */
         header::before {
             content: "한국생활";
             position: absolute;
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 20vw; /* 字體加大 */
+            font-size: 20vw;
             font-weight: 900;
-            color: rgba(255, 255, 255, 0.25); /* 稍微明顯一點的白色浮水印 */
+            color: rgba(255, 255, 255, 0.25);
             pointer-events: none;
             z-index: 1;
             top: 40%;
             transform: translateY(-50%);
-            mix-blend-mode: overlay; /* 讓文字與背景圖融合 */
+            mix-blend-mode: overlay;
         }
 
         .header-content {
             z-index: 2;
-            /* 因為 Header 變高了，內容稍微往上提一點，視覺重心比較好 */
-            margin-bottom: 5vh;
+            /* 讓標題稍微往上跑一點，留出下方空間給圖片欣賞 */
+            margin-bottom: 10vh; 
             animation: float 6s ease-in-out infinite;
         }
 
@@ -97,11 +94,10 @@
             margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
             color: #1a2b3c;
-            /* 增加文字光暈，確保在任何插畫上都清楚 */
             text-shadow: 0 4px 20px rgba(255, 255, 255, 0.9), 0 0 10px rgba(255,255,255,0.8);
         }
 
-        /* --- 2. 副標題優化：毛玻璃膠囊樣式 --- */
+        /* 副標題樣式 */
         .subtitle {
             font-size: clamp(0.95rem, 1.5vw, 1.1rem);
             font-weight: 600;
@@ -109,16 +105,13 @@
             margin: 0 auto;
             color: #333;
             line-height: 1.8;
-            
-            /* 毛玻璃效果：半透明白底 + 模糊背景 */
             background: rgba(255, 255, 255, 0.7); 
             backdrop-filter: blur(12px); 
             -webkit-backdrop-filter: blur(12px);
-            
             padding: 1rem 2rem;
-            border-radius: 50px; /* 圓潤膠囊狀 */
-            border: 1px solid rgba(255, 255, 255, 0.8); /* 玻璃質感邊框 */
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05); /* 極柔和陰影 */
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
         }
 
         .tag-pill {
@@ -136,12 +129,16 @@
             transform: translateY(-5px);
         }
 
-        /* --- 3. 內容區塊調整：解決碰撞問題 --- */
+        /* --- 2. 內容區塊調整 (主要修改處) --- */
         .container {
             max-width: 1200px;
-            /* 讓內容區塊稍微往上蓋住一點 Header (約 100px)，創造層次感 */
-            margin: -100px auto 0; 
-            padding: 0 2rem 4rem 2rem;
+            
+            /* 【修改處】這裡改成 0，不再往上覆蓋 */
+            margin: 0 auto; 
+            
+            /* 增加一點上方的內距，讓標題跟頂部有點呼吸空間 */
+            padding: 4rem 2rem; 
+            
             position: relative;
             z-index: 3;
         }
@@ -149,9 +146,7 @@
         .section-title {
             font-size: 1.4rem;
             font-weight: 700;
-            /* 透過 container 的 padding 控制，這裡不需要過大的 margin */
             margin: 0 0 1.5rem 0; 
-            padding-top: 2rem;
             display: flex;
             align-items: center;
             color: #333;
@@ -178,7 +173,7 @@
             .grid { grid-template-columns: repeat(4, 1fr); }
         }
 
-        /* Card 視覺優化 */
+        /* Card 樣式 */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(5px);
@@ -255,10 +250,10 @@
         
         /* 響應式調整 */
         @media (max-width: 768px) {
-            header { height: 90vh; background-attachment: scroll; /* 手機版通常關閉視差以提升效能 */ }
-            .container { margin-top: -30px; }
+            header { height: 90vh; background-attachment: scroll; }
             h1 { font-size: 2.5rem; }
             .subtitle { padding: 1rem; width: 90%; }
+            .container { padding-top: 2rem; }
         }
     </style>
 </head>
