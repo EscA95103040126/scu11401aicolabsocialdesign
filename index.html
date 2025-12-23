@@ -36,33 +36,36 @@
             overflow-x: hidden;
         }
 
-        /* --- 視覺升級區：Hero Section --- */
-       /* --- 視覺升級區：Hero Section (明亮版) --- */
+/* --- 修正版 Header (確保圖片顯示) --- */
         header {
-            /* 替換成明亮的首爾晨光照片 (昌德宮秘苑的春天) */
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(244, 246, 248, 1)), url('https://images.unsplash.com/photo-1617614704363-875ffbb105f9?q=80&w=1974&auto=format&fit=crop');
+            /* 注意：這裡使用了逗號區隔漸層與圖片 */
+            background-image: 
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(244, 246, 248, 1)), 
+                url('https://images.unsplash.com/photo-1617614704363-875ffbb105f9?q=80&w=1974&auto=format&fit=crop');
+            
             background-size: cover;
-            background-position: center;
-            /* background-attachment: fixed; 如果覺得圖片滾動會暈，可以註解掉這行 */
-            height: 60vh; /* 高度稍微調小一點，讓內容更快出現 */
+            background-position: center 30%; /* 讓圖片重心稍微往上，比較容易看到宮殿屋頂 */
+            background-repeat: no-repeat;
+            
+            height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 2rem;
-            color: var(--text-main); /* 文字改成深色 */
+            color: #2c3e50; /* 深色文字 */
             position: relative;
         }
 
-        /* 裝飾性韓文背景字 (改成深色微透明) */
+        /* 裝飾性韓文背景字 */
         header::before {
             content: "한국생활";
             position: absolute;
             font-family: 'Noto Sans KR', sans-serif;
             font-size: 15vw;
             font-weight: 900;
-            color: rgba(0,0,0,0.03); /* 極淡的黑色 */
+            color: rgba(0,0,0,0.03); /* 極淡的浮水印 */
             pointer-events: none;
             z-index: 1;
             top: 50%;
@@ -71,16 +74,15 @@
 
         .header-content {
             z-index: 2;
-            /* animation: slideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1); 可以暫時關閉動畫看效果 */
         }
 
         h1 {
             font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 800;
             margin-bottom: 1rem;
-            /* text-shadow: 0 4px 12px rgba(0,0,0,0.3); 明亮背景不需要深色陰影 */
             letter-spacing: -0.02em;
-            color: #2c3e50; /* 深藍灰色標題 */
+            color: #2c3e50;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8); /* 增加白光暈，避免背景太花看不清楚字 */
         }
 
         .subtitle {
@@ -361,4 +363,5 @@
     </script>
 </body>
 </html>
+
 
