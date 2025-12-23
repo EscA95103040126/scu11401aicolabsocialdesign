@@ -41,23 +41,24 @@
             /* 圖層順序 (由上到下):
                1. 底部白色雲霧漸層 (讓圖片底部自然變白)
                2. 微微的白色濾鏡 (讓文字更清楚)
-               3. 背景圖片 (請確認您的 header-bg.png 在同資料夾)
+               3. 背景圖片 (設定為 header-bg.png)
             */
             background-image: 
-                linear-gradient(to top, #f4f6f8 2%, rgba(244, 246, 248, 0.9) 10%, rgba(255,255,255,0) 40%),
-                linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)),
+                linear-gradient(to top, #f4f6f8 0%, rgba(244, 246, 248, 0.9) 10%, rgba(255,255,255,0) 40%),
+                linear-gradient(rgba(0,0,0,0.02), rgba(0,0,0,0.02)),
                 url('header-bg.png'); 
             
-            /* 如果您還沒下載圖片，暫時可以用下面這行網址測試 (請刪除上面的 url 行，解開下面這行註解) */
-            /* url('https://images.unsplash.com/photo-1538485399081-7191377e8241?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); */
-
             background-size: cover;
-            background-position: center bottom; /* 對齊底部，讓風景更完整 */
+            /* 【關鍵】對齊底部！確保視差滾動時，漂亮的房子永遠看得到 */
+            background-position: center bottom; 
             
             /* 【關鍵】視差滾動效果：背景固定不動 */
             background-attachment: fixed; 
             
-            height: 70vh; /* 拉高高度，展現大氣感 */
+            /* 【關鍵】高度設為 100vh (滿版)，展現圖片的全貌 */
+            height: 100vh;
+            min-height: 600px;
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -73,19 +74,20 @@
             content: "한국생활";
             position: absolute;
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 18vw; /* 字體加大 */
+            font-size: 20vw; /* 字體加大 */
             font-weight: 900;
             color: rgba(255, 255, 255, 0.25); /* 稍微明顯一點的白色浮水印 */
             pointer-events: none;
             z-index: 1;
-            top: 45%;
+            top: 40%;
             transform: translateY(-50%);
             mix-blend-mode: overlay; /* 讓文字與背景圖融合 */
         }
 
         .header-content {
             z-index: 2;
-            /* 加入輕微的浮動動畫，增加活潑感 */
+            /* 因為 Header 變高了，內容稍微往上提一點，視覺重心比較好 */
+            margin-bottom: 5vh;
             animation: float 6s ease-in-out infinite;
         }
 
@@ -137,8 +139,8 @@
         /* --- 3. 內容區塊調整：解決碰撞問題 --- */
         .container {
             max-width: 1200px;
-            /* 負邊距縮小，讓內容不要蓋住圖片太多 */
-            margin: -20px auto 0; 
+            /* 讓內容區塊稍微往上蓋住一點 Header (約 100px)，創造層次感 */
+            margin: -100px auto 0; 
             padding: 0 2rem 4rem 2rem;
             position: relative;
             z-index: 3;
@@ -147,8 +149,9 @@
         .section-title {
             font-size: 1.4rem;
             font-weight: 700;
-            /* 【關鍵】增加上方間距，把標題往下推，避開背景圖 */
-            margin: 4rem 0 1.5rem 0; 
+            /* 透過 container 的 padding 控制，這裡不需要過大的 margin */
+            margin: 0 0 1.5rem 0; 
+            padding-top: 2rem;
             display: flex;
             align-items: center;
             color: #333;
@@ -252,7 +255,7 @@
         
         /* 響應式調整 */
         @media (max-width: 768px) {
-            header { height: 60vh; background-attachment: scroll; /* 手機版通常關閉視差以提升效能 */ }
+            header { height: 90vh; background-attachment: scroll; /* 手機版通常關閉視差以提升效能 */ }
             .container { margin-top: -30px; }
             h1 { font-size: 2.5rem; }
             .subtitle { padding: 1rem; width: 90%; }
