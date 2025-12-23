@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>韓國生活導覽 | KR Life Guide</title>
+    <meta name="description" content="為中文使用者打造的韓國生活、旅遊、留學必備工具導覽網站。">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #fafafa;
+            --text-main: #222222;
+            --text-sub: #666666;
+            --accent-blue: #0066cc;
+            --accent-hover: #0055aa;
+            --card-bg: #ffffff;
+            --transition-speed: 0.3s;
+            --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 尊重減少動畫設定 */
+        @media (prefers-reduced-motion: reduce) {
+            .fade-in {
+                transition: none !important;
+                transform: none !important;
+                opacity: 1 !important;
+            }
+        }
+
+        /* Header Styles */
+        header {
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 1rem;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 102, 204, 0.05) 0%, transparent 70%);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #222 0%, #555 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            font-weight: 500;
+            max-width: 600px;
+        }
+
+        /* Container & Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem 0;
+            padding-left: 1rem;
+            border-left: 4px solid var(--accent-blue);
+            color: var(--text-main);
+            opacity: 0; /* 用於動畫 */
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        @media (min-width: 1024px) {
+            .grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all var(--transition-speed) var(--ease);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-blue);
+            transform: scaleX(0);
+            transition: transform var(--transition-speed) var(--ease);
+            transform-origin: left;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: rgba(0, 102, 204, 0.2);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .icon-box {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 1.2rem;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f7ff;
+            border-radius: 50%;
+            transition: background var(--transition-speed) var(--ease), color var(--transition-speed) var(--ease);
+        }
+
+        .card:hover .icon-box {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #999;
+            background: #f5f5f5;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="fade-in">
+        <h1>韓國生活導覽</h1>
+        <p class="subtitle">為中文使用者打造的生存工具箱<br>從旅遊到定居，一站式入口</p>
+    </header>
+
+    <div class="container">
+        
+        <h2 class="section-title fade-in">必備工具 Essentials</h2>
+        <div class="grid">
+            <a href="https://map.naver.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h3>Naver Map</h3>
+                <p>韓國最強地圖，找路、找餐廳必備，支援中文顯示</p>
+            </a>
+
+            <a href="https://papago.naver.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-language"></i></div>
+                <h3>Papago 翻譯</h3>
+                <p>比 Google 更懂韓文，支援圖片翻譯與敬語轉換</p>
+            </a>
+
+            <a href="https://www.kakaocorp.com/page/service/service/KakaoTalk" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-comments"></i></div>
+                <h3>KakaoTalk</h3>
+                <p>韓國國民通訊軟體，沒有它就像沒有電話號碼</p>
+            </a>
+
+            <a href="https://namu.wiki/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-book-open"></i></div>
+                <h3>Namu Wiki</h3>
+                <p>樹維基，韓國流行文化、社會迷因的知識庫</p>
+            </a>
+        </div>
+
+        <h2 class="section-title fade-in">交通出行 Transport</h2>
+        <div class="grid">
+            <a href="https://www.kakaocorp.com/page/service/service/KakaoT" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-taxi"></i></div>
+                <h3>Kakao T</h3>
+                <p>計程車、代駕、腳踏車，交通移動一鍵搞定</p>
+            </a>
+
+            <a href="http://www.seoulmetro.co.kr/kr/cyberStation.do" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-train-subway"></i></div>
+                <h3>Subway Korea</h3>
+                <p>最清晰的地鐵路線圖，包含急行列車與轉乘資訊</p>
+            </a>
+
+             <a href="https://www.letskorail.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-train"></i></div>
+                <h3>Korail Talk</h3>
+                <p>KTX、火車訂票系統，跨城市旅遊必備</p>
+            </a>
+        </div>
+
+        <h2 class="section-title fade-in">購物情報 Shopping</h2>
+        <div class="grid">
+            <a href="https://www.coupang.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-rocket"></i></div>
+                <h3>Coupang</h3>
+                <p>韓國版亞馬遜，火箭配送讓生活物資隔日就到</p>
+            </a>
+
+            <a href="https://www.daangn.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-handshake"></i></div>
+                <h3>Karrot (當根)</h3>
+                <p>韓國最大的二手交易與社區情報 APP，在地生活圈</p>
+            </a>
+
+            <a href="https://www.musinsa.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-shirt"></i></div>
+                <h3>Musinsa</h3>
+                <p>韓國年輕人都在用的潮流服飾平台，流行指標</p>
+            </a>
+
+            <a href="https://www.oliveyoung.co.kr/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-pump-soap"></i></div>
+                <h3>Olive Young</h3>
+                <p>藥妝龍頭，美妝、保養、零食一站購足</p>
+            </a>
+             <a href="https://danawa.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-laptop"></i></div>
+                <h3>Danawa</h3>
+                <p>電子產品與各類商品的專業比價網</p>
+            </a>
+        </div>
+
+        <h2 class="section-title fade-in">居住飲食 Life & Food</h2>
+        <div class="grid">
+            <a href="https://www.baemin.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-motorcycle"></i></div>
+                <h3>外送民族</h3>
+                <p>宵夜炸雞、韓式炸醬麵，韓國外送第一品牌</p>
+            </a>
+
+            <a href="https://www.zigbang.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-house-chimney"></i></div>
+                <h3>Zigbang (直房)</h3>
+                <p>尋找One Room、考試院或租房的必備看屋神器</p>
+            </a>
+
+            <a href="https://www.yanolja.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-bed"></i></div>
+                <h3>Yanolja</h3>
+                <p>旅遊住宿、休閒票券優惠，深度旅遊首選</p>
+            </a>
+             <a href="https://kin.naver.com/" target="_blank" class="card fade-in">
+                <div class="icon-box"><i class="fa-solid fa-circle-question"></i></div>
+                <h3>Naver 知人</h3>
+                <p>韓國版知識+，解決生活中的疑難雜症</p>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created for KR Life Guide | 僅提供連結導航，非官方服務</p>
+    </footer>
+
+    <script>
+        // Intersection Observer 用於滾動淡入動畫
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // 觀察到後取消觀察，避免重複觸發（可選）
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach((el, index) => {
+            // 加入些微延遲，讓Grid載入時有階梯感
+            el.style.transitionDelay = `${index % 4 * 0.05}s`; 
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
